@@ -67,8 +67,19 @@ void NOT::inverter(){
 		_saidas[i]=not _entradas[i];
 	}
 }
+// Processar
+OR::OR(int ins) : Componente (ins, 1){}
+void OR::processar(){
+	unsigned i, size= _entradas.size();
 
+	bool ini= _entradas[0];
 
+	for(i=0; i<size; i++){
+		ini |= _entradas[i];
+	}
+
+	_saidas[0]=ini;
+}
 
 
 

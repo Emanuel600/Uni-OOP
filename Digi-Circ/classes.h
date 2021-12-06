@@ -38,7 +38,12 @@ public:
 	void inverter();
 };
 
-
+class OR : public Componente{
+public:
+	OR(int ins);
+	// Realizar Operação Lógica
+	void processar();
+};
 
 
 
