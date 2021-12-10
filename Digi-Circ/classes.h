@@ -1,6 +1,8 @@
 #ifndef CLASSES_H_
 #define CLASSES_H_
 
+#include <stdlib.h> // Função exit() para falhas críticas
+
 #include <iostream>
 #include <vector>
 
@@ -45,7 +47,12 @@ public:
 	void processar();
 };
 
-
-
+/* Memórias */
+// Latch SR
+class Latch_SR : public Componente{
+public:
+	Latch_SR(bool e);
+	void processar();
+};
 
 #endif /* CLASSES_H_ */

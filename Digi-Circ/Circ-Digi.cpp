@@ -2,17 +2,20 @@
 
 
 int main(){
-	int ins=3;
+	unsigned ins=3, i;
+	bool input[ins];
 
-	OR porta_1(ins);
+	Latch_SR porta_1(1);
 
-	bool input[ins]= {0, 0, 1};
+	while(1){
+		cout << "Entradas: ";
+		for (i=0; i<ins ; i++)
+			cin >> input[i];
+		cout << endl;
 
-	porta_1.set_input(input);
-
-	porta_1.print_input();
-
-	porta_1.processar();
-
-	porta_1.print_output();
+		porta_1.set_input(input);
+		porta_1.processar();
+		cout << "Saídas";
+		porta_1.print_output();
+	}
 }

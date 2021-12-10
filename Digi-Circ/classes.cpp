@@ -81,6 +81,49 @@ void OR::processar(){
 	_saidas[0]=ini;
 }
 
+/* Memórias */
+
+//Latch SR
+// i=0 é normal, i=1 adiciona enable como terceira entrada
+Latch_SR::Latch_SR(bool i=0) : Componente (2+i, 2){}
+void Latch_SR::processar(){
+	// Enable
+	if (_entradas.size()==3){ // Se Enable existe,
+		if (!_entradas[2]) // Não modifica saídas se Enable=0
+			return;
+	}
+	// Reset
+	switch(_entradas[0]){
+	case 0: // Latch
+		break;
+	case 1:
+		_saidas[0]=0;
+		_saidas[1]=!_entradas[1];
+		return;
+	default:
+		cerr << "Caso inesperado, valor de Reset= " << _entradas[0];
+		cerr << "Quando deve ser ou '1' ou '0'" << endl;
+		exit(-1); // Erro crítico
+	}
+	// Set
+	switch(_entradas[1]){
+	case 0: // Latch
+		break;
+	case 1:
+		_saidas[0]=1;
+		_saidas[1]=0;
+		break;
+	default:
+		cerr << "Caso inesperado, valor de Set= " << _entradas[1];
+		cerr << "Quando deve ser ou '1' ou '0'" << endl;
+		exit(-1); // Erro crítico
+	}
+}
+
+
+
+
+
 
 
 
