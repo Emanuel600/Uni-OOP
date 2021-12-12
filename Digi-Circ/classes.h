@@ -13,6 +13,10 @@ public:
 	Componente(int ins, int out);
 	// Definir Entradas
 	void set_input(bool* inputs);
+	// Inverter Entradas
+	void invert_ent();
+	// Inverter Saídas
+	void invert_out();
 	// Receber Saídas
 	vector<bool> get_output();
 	// Imprimir Saídas	=> Mais para Debug
@@ -52,6 +56,12 @@ public:
 class Latch_SR : public Componente{
 public:
 	Latch_SR(bool e);
+	void processar();
+};
+// Latch D
+class Latch_D : public Componente{
+public:
+	Latch_D();
 	void processar();
 };
 

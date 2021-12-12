@@ -15,6 +15,20 @@ void Componente::set_input(bool* dados){
 		_entradas[i]=dados[i];
 	}
 }
+// Inverter Entrada
+void Componente::invert_ent(){
+	unsigned size=_entradas.size(), i;
+
+	for (i=0; i<size; i++)
+		_entradas[i]=not _entradas[i];
+}
+// Inverter Saída
+void Componente::invert_out(){
+	unsigned size=_saidas.size(), i;
+
+	for (i=0; i<size; i++)
+		_saidas[i]=not _saidas[i];
+}
 // Receber Saída
 vector<bool> Componente::get_output(){
 	return _saidas;
@@ -83,7 +97,7 @@ void OR::processar(){
 
 /* Memórias */
 
-//Latch SR
+// Latch SR
 // i=0 é normal, i=1 adiciona enable como terceira entrada
 Latch_SR::Latch_SR(bool i=0) : Componente (2+i, 2){}
 void Latch_SR::processar(){
@@ -93,34 +107,29 @@ void Latch_SR::processar(){
 			return;
 	}
 	// Reset
-	switch(_entradas[0]){
-	case 0: // Latch
-		break;
-	case 1:
+	if(_entradas[0]){
 		_saidas[0]=0;
 		_saidas[1]=!_entradas[1];
 		return;
-	default:
-		cerr << "Caso inesperado, valor de Reset= " << _entradas[0];
-		cerr << "Quando deve ser ou '1' ou '0'" << endl;
-		exit(-1); // Erro crítico
 	}
 	// Set
-	switch(_entradas[1]){
-	case 0: // Latch
-		break;
-	case 1:
+	if(_entradas[1]){
 		_saidas[0]=1;
 		_saidas[1]=0;
-		break;
-	default:
-		cerr << "Caso inesperado, valor de Set= " << _entradas[1];
-		cerr << "Quando deve ser ou '1' ou '0'" << endl;
-		exit(-1); // Erro crítico
+		return;
 	}
 }
 
+// Latch D
+// i=0 não tem Enable, i=1 tem enable
+Latch_D::Latch_D() : Componente(2, 2){}
+void Latch_D::processar(){
+	if(!_entradas[1]) // Só modifica se Enable estiver ativado
+		return;
 
+	_saidas[0]=_entradas[0];
+	_saidas[1]=!_entradas[0];
+}
 
 
 
