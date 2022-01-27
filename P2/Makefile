@@ -6,13 +6,17 @@ OPTIONS=-g -Wall
 COMPILE=$(COMPILER) $(OPTIONS)
 
 P2-exec: $(OBJS)
-	$(COMPILE) -o $(EXEC) $(OBJS)
-	./P2-exec
+	$(COMPILE) -Og -o $(EXEC)-debug $(OBJS)
+	./$(EXEC)-debug
+
+opt: $(OBJS)
+	$(COMPILE) -O3 -o $(EXEC)-release $(OBJS) -O3
+	./$(EXEC)-release
 
 %.o: %.cpp
 	$(COMPILE) -c $< -o $@
 
-clean-exec:
+clean-obj:
 	rm -f *o
 
 clean:
