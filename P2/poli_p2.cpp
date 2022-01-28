@@ -1,5 +1,5 @@
 /*
- * Defini��o de M�todos
+ * Definiç�o de M�todos
  */
 #include "poli_p2.h"
 
@@ -15,11 +15,16 @@ double Funcao::integrar(Funcao *f, double x0, double x1, double step){
 		cerr << "Parâmetros inválidos" << endl;
 		return -1; // Código de erro
 	}
-	double i=0, area=0;
+	double i=0, area=0, op;
 
-	for (i=x0; i<x1; i+=step)
-		area += (*f)(i)*step;
-
+	for (i=x0; i<x1; i+=step){
+		op=(*f)(i);
+		#ifdef NDEBUG
+		if(step==0.01) // Não quero 5e5 linhas de saída toda vez que testar algo
+			cout << "f(" << i << ")=" << op << endl;
+		#endif
+		area += op*step;
+}
 	return area;
 }
 
@@ -169,9 +174,10 @@ double FuncaoAgregada::operator()(double x){
 void testar(Funcao *f, double a, double b, double step, double real){
 	double area=(*f).integrar(f, a, b, step);
 	double erro=100*abs(real-area)/double(real);
-
+	#ifdef DEBUG // Para ver se está calculando normalmente
 	cout << "f(" << a << ")= " << (*f)(a) << endl;
 	cout << "f(" << b << ")= " << (*f)(b) << endl;
+	#endif
 	cout << "Valor estimado da integral de f(x) no intervalo ["<< a << "," << b << "]: " << area << endl;
 	cout << "Valor real: " << real << endl;
 	cout << "Erro real: " << erro << "%" << endl;
@@ -204,7 +210,7 @@ void teste(){
 
 	Escalar k(5, &j); // 5sen(2x-1)
 	cout << "===Teste 6: f(x)=5sen(2x-1) ===" << endl;
-	testar(&k, (M_PI+1)/2, M_PI+1, 1e-5, -(5+5*cos(1))/2);
+	testar(&k, (M_PI+1)/2, M_PI+1, 1e-5, -(5+5*cos(1))/double(2));
 
 	FuncaoAgregada l;
 	l.agrega(&k) ; l.agrega(&f) ; l.agrega(&h); // x^2+5sen(2x-1)+5

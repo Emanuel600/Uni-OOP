@@ -22,7 +22,7 @@ debug: $(DBGEXE)
 
 $(DBGEXE): $(DBGOBJS)
 	$(CC) $(CFLAGS) $(DBGCFLAGS) -o $(DBGEXE) $^
-	./$(DGBEXE)
+	./$(DBGDIR)/$(EXE)
 
 $(DBGDIR)/%.o: %.cpp
 	$(CC) -c $(CFLAGS) $(DBGCFLAGS) -o $@ $<
