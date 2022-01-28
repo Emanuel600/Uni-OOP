@@ -1,5 +1,5 @@
 /*
- * Definiç�o de M�todos
+ * Definião de Métodos
  */
 #include "poli_p2.h"
 
@@ -12,8 +12,8 @@ double Funcao::operator()(double x){ return 0; }
 
 double Funcao::integrar(Funcao *f, double x0, double x1, double step){
 	if((f==NULL) | (x0==x1) | (step<=0)){ // Para evitar problemas
-		cerr << "Parâmetros inválidos" << endl;
-		return -1; // Código de erro
+		cerr << "ParÃ¢metros invÃ¡lidos" << endl;
+		return -1; // CÃ³digo de erro
 	}
 	double i=0, area=0, op;
 
@@ -126,7 +126,7 @@ Seno::Seno(){
 }
 
 double Seno::operator()(double x){
-	if (comp) // Como não foi especificado aonde 'a' vai na fórmula, assumo que seja assim
+	if (comp) // Como não foi especificado aonde 'a' vai na função, assumo que seja assim
 		return _value*sin((*comp)(x));
 	else
 		return _value*sin(x);
@@ -151,7 +151,7 @@ Coseno::Coseno(){
 }
 
 double Coseno::operator()(double x){
-	if (comp) // Como não foi especificado aonde 'a' vai na fórmula, assumo que seja assim
+	if (comp) // Como não foi especificado aonde 'a' vai na função, assumo que seja assim
 		return _value*cos((*comp)(x));
 	else
 		return _value*cos(x);
