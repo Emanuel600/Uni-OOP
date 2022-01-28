@@ -1,23 +1,51 @@
-OBJS=main_p2.o poli_p2.o
-COMPILER=g++
-EXEC=P2-exec
+# flags do compilador
+CC	= g++
+CFLAGS	= -Wall
 
-OPTIONS=-g -Wall
-COMPILE=$(COMPILER) $(OPTIONS)
+# Arquivos do projeto
+SRCS	= main_p2.cpp poli_p2.cpp
+OBJS	= $(SRCS:.cpp=.o)
+EXE	= P2-bin
 
-P2-exec: $(OBJS)
-	$(COMPILE) -Og -o $(EXEC)-debug $(OBJS)
-	./$(EXEC)-debug
+.PHONY: all clean debug release prep remake
 
-opt: $(OBJS)
-	$(COMPILE) -O3 -o $(EXEC)-release $(OBJS) -O3
-	./$(EXEC)-release
+# Padrão
+all: prep debug
 
-%.o: %.cpp
-	$(COMPILE) -c $< -o $@
+# Para debug
+DBGDIR	= debug
+DBGEXE	= $(DBGDIR)/$(EXE)
+DBGOBJS = $(addprefix $(DBGDIR)/, $(OBJS))
+DBGCFLAGS=-g -O0 -DDEBUG
 
-clean-obj:
-	rm -f *o
+debug: $(DBGEXE)
+
+$(DBGEXE): $(DBGOBJS)
+	$(CC) $(CFLAGS) $(DBGCFLAGS) -o $(DBGEXE) $^
+	./$(DGBEXE)
+
+$(DBGDIR)/%.o: %.cpp
+	$(CC) -c $(CFLAGS) $(DBGCFLAGS) -o $@ $<
+
+# Para release
+RELDIR	= release
+RELEXE	= $(RELDIR)/$(EXE)
+RELOBJS = $(addprefix $(RELDIR)/, $(OBJS))
+RELCFLAGS=-O3 -DNDEBUG
+
+release: $(RELEXE)
+
+$(RELEXE): $(RELOBJS)
+	$(CC) $(CFLAGS) $(RELCFLAGS) -o $(RELEXE) $^
+	valgrind ./$(RELEXE)
+
+$(RELDIR)/%.o: %.cpp
+	$(CC) -c $(CFLAGS) $(RELCFLAGS) -o $@ $<
+
+prep:
+	@mkdir -p $(DBGDIR) $(RELDIR)
+
+remake: clean all # Útil caso só modifique algo em .h ou na Makefile
 
 clean:
-	rm -f *o $(EXEC)
+	rm -f $(DBGDIR)/* $(RELDIR)/*
