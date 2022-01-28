@@ -1,5 +1,5 @@
 /*
- * Definiç�o de M�todos
+ * DefiniÃ§ão de Métodos
  */
 #include "poli_p2.h"
 
@@ -7,20 +7,20 @@ using namespace std;
 Funcao::Funcao(){ return; }
 
 Funcao::Funcao(Funcao *f){ return; }
-// Função Virtual
+// FunÃ§Ã£o Virtual
 double Funcao::operator()(double x){ return 0; }
 
 double Funcao::integrar(Funcao *f, double x0, double x1, double step){
 	if((f==NULL) | (x0==x1) | (step<=0)){ // Para evitar problemas
-		cerr << "Parâmetros inválidos" << endl;
-		return -1; // Código de erro
+		cerr << "ParÃ¢metros invÃ¡lidos" << endl;
+		return -1; // CÃ³digo de erro
 	}
 	double i=0, area=0, op;
 
 	for (i=x0; i<x1; i+=step){
 		op=(*f)(i);
 		#ifdef NDEBUG
-		if(step==0.01) // Não quero 5e5 linhas de saída toda vez que testar algo
+		if(step==0.01) // NÃ£o quero 5e5 linhas de saÃ­da toda vez que testar algo
 			cout << "f(" << i << ")=" << op << endl;
 		#endif
 		area += op*step;
@@ -28,11 +28,11 @@ double Funcao::integrar(Funcao *f, double x0, double x1, double step){
 	return area;
 }
 
-// Função Constante
+// FunÃ§Ã£o Constante
 Constante::Constante(double val){ _value=val; }
 double Constante::operator()(double x){ return _value; }
 
-// Função Escalar
+// FunÃ§Ã£o Escalar
 Escalar::Escalar(){
 	_value=1;
 	comp=NULL;
@@ -57,7 +57,7 @@ double Escalar::operator()(double x){
 		return _value*x;
 }
 
-// Função Potencial
+// FunÃ§Ã£o Potencial
 Potencial::Potencial(){
 	_value=1;
 	comp=NULL;
@@ -82,7 +82,7 @@ double Potencial::operator()(double x){
 		return pow(x, _value);
 }
 
-// Função Exponencial
+// FunÃ§Ã£o Exponencial
 Exponencial::Exponencial(double val, Funcao *f){
 	_value=val;
 	comp=f;
@@ -107,7 +107,7 @@ double Exponencial::operator()(double x){
 		return pow(_value, x);
 }
 
-// Função Seno
+// FunÃ§Ã£o Seno
 Seno::Seno(double val, Funcao *f){
 	_value=val;
 	comp=f;
@@ -126,13 +126,13 @@ Seno::Seno(){
 }
 
 double Seno::operator()(double x){
-	if (comp) // Como não foi especificado aonde 'a' vai na fórmula, assumo que seja assim
+	if (comp) // Como nÃ£o foi especificado aonde 'a' vai na fÃ³rmula, assumo que seja assim
 		return _value*sin((*comp)(x));
 	else
 		return _value*sin(x);
 }
 
-// Função Coseno
+// FunÃ§Ã£o Coseno
 Coseno::Coseno(double val, Funcao *f){
 	_value=1;
 	comp=f;
@@ -151,13 +151,13 @@ Coseno::Coseno(){
 }
 
 double Coseno::operator()(double x){
-	if (comp) // Como não foi especificado aonde 'a' vai na fórmula, assumo que seja assim
+	if (comp) // Como nÃ£o foi especificado aonde 'a' vai na fÃ³rmula, assumo que seja assim
 		return _value*cos((*comp)(x));
 	else
 		return _value*cos(x);
 }
 
-// Agregar Funções
+// Agregar FunÃ§Ãµes
 void FuncaoAgregada::agrega(Funcao *f){
 	funcoes.push_back(f);
 }
@@ -174,7 +174,7 @@ double FuncaoAgregada::operator()(double x){
 void testar(Funcao *f, double a, double b, double step, double real){
 	double area=(*f).integrar(f, a, b, step);
 	double erro=100*abs(real-area)/double(real);
-	#ifdef DEBUG // Para ver se está calculando normalmente
+	#ifdef DEBUG // Para ver se estÃ¡ calculando normalmente
 	cout << "f(" << a << ")= " << (*f)(a) << endl;
 	cout << "f(" << b << ")= " << (*f)(b) << endl;
 	#endif
