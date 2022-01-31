@@ -12,7 +12,7 @@ double Funcao::operator()(double x){ return 0; }
 // Função Estática
 double Funcao::integrar(Funcao *f, double x0, double x1, double step){
 	if((f==NULL) | (x0==x1) | (step<=0)){ // Para evitar problemas
-		cerr << "ParÃ¢metros invÃ¡lidos" << endl;
+		cerr << "Parâmetros inválidos" << endl;
 		return -1; // CÃ³digo de erro
 	}
 	double i=0, area=0, op;
@@ -127,7 +127,7 @@ Coseno::Coseno(Funcao *f){ comp=f; }
 Coseno::Coseno(){ comp=NULL; }
 
 double Coseno::operator()(double x){
-	if (comp) // Como não foi especificado aonde 'a' vai na função, assumo que seja assim
+	if (comp)
 		return cos((*comp)(x));
 
 	return cos(x);
