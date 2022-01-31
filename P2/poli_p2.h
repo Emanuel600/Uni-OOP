@@ -18,7 +18,7 @@ public:
 	Funcao(Funcao *f);
 	// Métodos
 	virtual double operator()(double x)=0;
-	double integrar(Funcao *f, double x0, double x1, double step);
+	static double integrar(Funcao *f, double x0, double x1, double step);
 };
 
 class Constante: public Funcao{
