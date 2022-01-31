@@ -1,5 +1,5 @@
 /*
- * Definião de Métodos
+ * Definição de Métodos
  */
 #include "poli_p2.h"
 
@@ -9,7 +9,7 @@ Funcao::Funcao(){ return; }
 Funcao::Funcao(Funcao *f){ return; }
 // Função Virtual
 double Funcao::operator()(double x){ return 0; }
-
+// Função Estática
 double Funcao::integrar(Funcao *f, double x0, double x1, double step){
 	if((f==NULL) | (x0==x1) | (step<=0)){ // Para evitar problemas
 		cerr << "ParÃ¢metros invÃ¡lidos" << endl;
@@ -24,7 +24,7 @@ double Funcao::integrar(Funcao *f, double x0, double x1, double step){
 			cout << "f(" << i << ")=" << op << endl;
 		#endif
 		area += op*step;
-}
+	}
 	return area;
 }
 
@@ -53,8 +53,8 @@ Escalar::Escalar(Funcao *f){
 double Escalar::operator()(double x){
 	if(comp)
 		return _value*(*comp)(x);
-	else
-		return _value*x;
+
+	return _value*x;
 }
 
 // Função Potencial
@@ -78,8 +78,8 @@ Potencial::Potencial(Funcao *f){
 double Potencial::operator()(double x){
 	if(comp)
 		return pow((*comp)(x), _value);
-	else
-		return pow(x, _value);
+
+	return pow(x, _value);
 }
 
 // Função Exponencial
@@ -103,58 +103,34 @@ Exponencial::Exponencial(){
 double Exponencial::operator()(double x){
 	if(comp)
 		return pow(_value, (*comp)(x));
-	else
-		return pow(_value, x);
+	
+	return pow(_value, x);
 }
 
 // Função Seno
-Seno::Seno(double val, Funcao *f){
-	_value=val;
-	comp=f;
-}
-Seno::Seno(double val){
-	_value=val;
-	comp=NULL;
-}
-Seno::Seno(Funcao *f){
-	_value=1;
-	comp=f;
-}
-Seno::Seno(){
-	_value=1;
-	comp=NULL;
-}
+Seno::Seno(double val, Funcao *f){ comp=f; }
+Seno::Seno(double val){ comp=NULL; }
+Seno::Seno(Funcao *f){ comp=f; }
+Seno::Seno(){ comp=NULL; }
 
 double Seno::operator()(double x){
-	if (comp) // Como não foi especificado aonde 'a' vai na função, assumo que seja assim
-		return _value*sin((*comp)(x));
-	else
-		return _value*sin(x);
+	if (comp)
+		return sin((*comp)(x));
+
+	return sin(x);
 }
 
 // Função Coseno
-Coseno::Coseno(double val, Funcao *f){
-	_value=1;
-	comp=f;
-}
-Coseno::Coseno(double val){
-	_value=val;
-	comp=NULL;
-}
-Coseno::Coseno(Funcao *f){
-	_value=1;
-	comp=f;
-}
-Coseno::Coseno(){
-	_value=1;
-	comp=NULL;
-}
+Coseno::Coseno(double val, Funcao *f){ comp=f; }
+Coseno::Coseno(double val){ comp=NULL; }
+Coseno::Coseno(Funcao *f){ comp=f; }
+Coseno::Coseno(){ comp=NULL; }
 
 double Coseno::operator()(double x){
 	if (comp) // Como não foi especificado aonde 'a' vai na função, assumo que seja assim
-		return _value*cos((*comp)(x));
-	else
-		return _value*cos(x);
+		return cos((*comp)(x));
+
+	return cos(x);
 }
 
 // Agregar Funções
@@ -172,7 +148,7 @@ double FuncaoAgregada::operator()(double x){
 }
 
 void testar(Funcao *f, double a, double b, double step, double real){
-	double area=(*f).integrar(f, a, b, step);
+	double area=Funcao::integrar(f, a, b, step);
 	double erro=100*abs(real-area)/double(real);
 	#ifdef DEBUG // Para ver se está calculando normalmente
 	cout << "f(" << a << ")= " << (*f)(a) << endl;
