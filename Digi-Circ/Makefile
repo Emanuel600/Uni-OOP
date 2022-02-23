@@ -7,7 +7,7 @@ SRCS	= Circ-Digi.cpp portas.cpp
 OBJS	= $(SRCS:.cpp=.o)
 EXE	= Simuador\ de\ Circuitos\ Digitais
 
-.PHONY: all clean debug release prep remake
+.PHONY: all clean debug release prep
 
 # Padrão
 all: prep debug
@@ -21,7 +21,7 @@ DFLAGS	= $(CFLAGS) -O0 -g -DDEBUG
 # Debug
 debug: $(DEXE)
 
-$(DEXE): $(DOBJS)
+$(DEXE): $(DOBJS) portas.h
 	$(CC) $(DFLAGS) -o $(DEXE) $^
 	./$(DDIR)/$(EXE)
 
@@ -37,16 +37,20 @@ RFLAGS	= $(CFLAGS) -O3 -DNDEBUG
 # Release
 release: $(REXE)
 
-$(REXE): $(ROBJS)
+$(REXE): $(ROBJS) portas.h
 	$(CC) $(RFLAGS) $^ -o $(REXE)
 	valgrind ./$(RDIR)/$(EXE)
 
 $(RDIR)/%.o: %.cpp
 	$(CC) $(RFLAGS) -c $^ -o $@
 
+# Preparar diretório
 prep:
 	@mkdir -p release debug
 
+# Refazer tudo
 remake: clean all
 
-clean: rm -f $(RDIR) $(DDIR)
+# Limpar tudo
+clean:
+	rm -f $(RDIR)/* $(DDIR)/*
